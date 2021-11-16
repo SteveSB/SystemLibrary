@@ -25,11 +25,13 @@ namespace LibrarySystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBookService, BookService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddRepositories(Configuration);
         }
