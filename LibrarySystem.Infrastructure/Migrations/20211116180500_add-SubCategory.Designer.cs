@@ -3,14 +3,16 @@ using LibrarySystem.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LibrarySystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211116180500_add-SubCategory")]
+    partial class addSubCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,19 +103,16 @@ namespace LibrarySystem.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Descrption")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("SubCategories");
+                    b.ToTable("SubCategory");
                 });
 
             modelBuilder.Entity("LibrarySystem.Core.Models.Book", b =>
@@ -138,7 +137,7 @@ namespace LibrarySystem.Infrastructure.Migrations
             modelBuilder.Entity("LibrarySystem.Core.Models.SubCategory", b =>
                 {
                     b.HasOne("LibrarySystem.Core.Models.Category", "Category")
-                        .WithMany("SubCategories")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -149,11 +148,6 @@ namespace LibrarySystem.Infrastructure.Migrations
             modelBuilder.Entity("LibrarySystem.Core.Models.Author", b =>
                 {
                     b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("LibrarySystem.Core.Models.Category", b =>
-                {
-                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("LibrarySystem.Core.Models.SubCategory", b =>

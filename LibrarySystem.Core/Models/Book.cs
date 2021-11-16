@@ -17,9 +17,9 @@ namespace LibrarySystem.Core.Models
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
         public Author Author { get; set; }
-        [ForeignKey("Category")]
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        [ForeignKey("SubCategory")]
+        public int SubCategoryId { get; set; }
+        public SubCategory SubCategory { get; set; }
         #endregion
     }
 }
