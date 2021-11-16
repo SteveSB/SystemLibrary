@@ -15,7 +15,6 @@ namespace LibrarySystem.Infrastructure.DIExtensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"],

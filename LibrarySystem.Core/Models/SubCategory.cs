@@ -16,7 +16,7 @@ namespace LibrarySystem.Core.Models
         public string Name { get; set; }
 
         [StringLength(250)]
-        public string Descrption { get; set; }
+        public string Description { get; set; }
 
         #region Navigation properties
         public int CategoryId { get; set; }
