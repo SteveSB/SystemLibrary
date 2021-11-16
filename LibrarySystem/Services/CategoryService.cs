@@ -75,21 +75,18 @@ namespace LibrarySystem.Services
             try
             {
                 var category = await _unitOfWork.Categories.GetCategoryByIdAsync(categoryId);
-                if (category != null)
+                if (category == null)
                 {
-                    _unitOfWork.Categories.CreateCategory(category);
-                    await _unitOfWork.Complete();
-                    return true;
+                    throw new Exception("Error deleting the category: not found");
                 }
-                Console.WriteLine("Error deleting the category: not found");
-                return false;
+                _unitOfWork.Categories.CreateCategory(category);
+                await _unitOfWork.Complete();
+                return true;
             }
             catch (Exception exp)
             {
-                Console.WriteLine("Error deleting the category: ", exp.Message);
-                return false;
+                throw new Exception("Error deleting the category: " + exp.Message);
             }
-
         }
     }
 }

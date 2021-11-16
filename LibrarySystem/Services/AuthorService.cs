@@ -75,19 +75,17 @@ namespace LibrarySystem.Services
             try
             {
                 var author = await _unitOfWork.Authors.GetAuthorByIdAsync(authorId);
-                if (author != null)
+                if (author == null)
                 {
-                    _unitOfWork.Authors.CreateAuthor(author);
-                    await _unitOfWork.Complete();
-                    return true;
+                    throw new Exception("Error deleting the author: not found");
                 }
-                Console.WriteLine("Error deleting the author: not found");
-                return false;
+                _unitOfWork.Authors.CreateAuthor(author);
+                await _unitOfWork.Complete();
+                return true;
             }
             catch (Exception exp)
             {
-                Console.WriteLine("Error deleting the author: ", exp.Message);
-                return false;
+                throw new Exception("Error deleting the author: " + exp.Message);
             }
 
         }

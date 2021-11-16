@@ -69,19 +69,17 @@ namespace LibrarySystem.Services
             try
             {
                 var book = await _unitOfWork.Books.GetBookByIdAsync(bookId);
-                if (book != null)
+                if (book == null)
                 {
-                    _unitOfWork.Books.DeleteBook(book);
-                    await _unitOfWork.Complete();
-                    return true;
+                    throw new Exception("Error deleting the book: not found");
                 }
-                Console.WriteLine("Error deleting the book: not found");
-                return false;
+                _unitOfWork.Books.DeleteBook(book);
+                await _unitOfWork.Complete();
+                return true;
             }
             catch (Exception exp)
             {
-                Console.WriteLine("Error deleting the book: ", exp.Message);
-                return false;
+                throw new Exception("Error deleting the book: " + exp.Message);
             }
 
         }

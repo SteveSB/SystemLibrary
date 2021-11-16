@@ -79,19 +79,17 @@ namespace LibrarySystem.Services
             try
             {
                 var subCategory = await _unitOfWork.SubCategories.GetSubCategoryByIdAsync(subCategoryId);
-                if (subCategory != null)
+                if (subCategory == null)
                 {
-                    _unitOfWork.SubCategories.CreateSubCategory(subCategory);
-                    await _unitOfWork.Complete();
-                    return true;
+                    throw new Exception("Error deleting the SubCategory: not found");
                 }
-                Console.WriteLine("Error deleting the subCategory: not found");
-                return false;
+                _unitOfWork.SubCategories.CreateSubCategory(subCategory);
+                await _unitOfWork.Complete();
+                return true;
             }
             catch (Exception exp)
             {
-                Console.WriteLine("Error deleting the subCategory: ", exp.Message);
-                return false;
+                throw new Exception("Error deleting the SubCategory: " + exp.Message);
             }
 
         }

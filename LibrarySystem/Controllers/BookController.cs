@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using LibrarySystem.Services.Interfaces;
-using LibrarySystem.ViewModels.Author;
 using LibrarySystem.ViewModels.Book;
-using LibrarySystem.ViewModels.Category;
-using LibrarySystem.ViewModels.SubCategory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace LibrarySystem.Controllers
@@ -86,16 +84,22 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> Delete(int id)
+        public async Task<JsonResult> Delete(int id)
         {
             try
             {
                 var isDeleted = await _bookService.DeleteBook(id);
-                return isDeleted;
+                if (!isDeleted)
+                {
+                    Response.StatusCode = 500;
+                    return Json("Something went wrong");
+                }
+                return Json("Deleted");
             }
-            catch
+            catch (Exception exp)
             {
-                return false;
+                Response.StatusCode = 500;
+                return Json(exp.Message);
             }
         }
 
@@ -109,15 +113,12 @@ namespace LibrarySystem.Controllers
         private async Task<IActionResult> InitializeBookFormView(SaveBookViewModel bookViewModel)
         {
             var authors = await _authorService.GetAuthorsUsingStoredProcedure();
-            //authors.Insert(0, new AuthorViewModel() { Id = 0, Name = "Select" });
             bookViewModel.Authors = new SelectList(authors, "Id", "Name");
 
             var categories = await _categoryService.GetCategoriesUsingStoredProcedure();
-            //categories.Insert(0, new CategoryViewModel() { Id = 0, Name = "Select" });
             bookViewModel.Categories = new SelectList(categories, "Id", "Name");
 
             var subCategories = await _subCategoryService.GetSubCategoriesUsingStoredProcedure(bookViewModel.CategoryId);
-            //subCategories.Insert(0, new SubCategoryViewModel() { Id = 0, Name = "Select" });
             bookViewModel.SubCategories = new SelectList(subCategories, "Id", "Name");
 
             return View("BookForm", bookViewModel);

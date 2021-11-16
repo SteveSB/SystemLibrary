@@ -63,7 +63,7 @@
                     window.location.replace('@Url.Action("Index", "Book")');
                 },
                 error: function (data) {
-                    alert('Error');
+                    alert(data.responseJSON);
                 }
             });
         }
