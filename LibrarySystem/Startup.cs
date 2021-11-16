@@ -32,6 +32,7 @@ namespace LibrarySystem
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ISubCategoryService, SubCategoryService>();
 
             services.AddRepositories(Configuration);
         }

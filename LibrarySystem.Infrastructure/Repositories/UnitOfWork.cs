@@ -17,16 +17,19 @@ namespace LibrarySystem.Infrastructure.Repositories
 
         public ICategoryRepository Categories { get; }
 
+        public ISubCategoryRepository SubCategories { get; }
+
         public UnitOfWork(ApplicationDbContext applicationDbContext,
             IAuthorRepository authorRepository,
             IBookRepository bookRepository,
-            ICategoryRepository categoryRepository
-            )
+            ICategoryRepository categoryRepository,
+            ISubCategoryRepository subCategoryRepository)
         {
             _dbContext = applicationDbContext;
             Authors = authorRepository;
             Books = bookRepository;
             Categories = categoryRepository;
+            SubCategories = subCategoryRepository;
         }
 
         public async Task Complete()

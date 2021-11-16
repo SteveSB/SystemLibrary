@@ -8,6 +8,7 @@ namespace LibrarySystem.Core.Interfaces
         IAuthorRepository Authors { get; }
         IBookRepository Books { get; }
         ICategoryRepository Categories { get; }
+        ISubCategoryRepository SubCategories { get; }
 
         Task Complete();
     }
