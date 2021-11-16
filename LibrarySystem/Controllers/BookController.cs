@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using LibrarySystem.Services.Interfaces;
+using LibrarySystem.ViewModels.Author;
 using LibrarySystem.ViewModels.Book;
+using LibrarySystem.ViewModels.Category;
+using LibrarySystem.ViewModels.SubCategory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -13,18 +16,21 @@ namespace LibrarySystem.Controllers
         private readonly IBookService _bookService;
         private readonly IAuthorService _authorService;
         private readonly ICategoryService _categoryService;
+        private readonly ISubCategoryService _subCategoryService;
         private readonly IMapper _mapper;
         private readonly ILogger<BookController> _logger;
 
         public BookController(IBookService bookService,
             IAuthorService authorService,
             ICategoryService categoryService,
+            ISubCategoryService subCategoryService,
             IMapper mapper,
             ILogger<BookController> logger)
         {
             _bookService = bookService;
             _authorService = authorService;
             _categoryService = categoryService;
+            _subCategoryService = subCategoryService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -63,7 +69,7 @@ namespace LibrarySystem.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return View("BookForm", bookViewModel);
+                    return await InitializeBookFormView(bookViewModel);
                 }
 
                 if (bookViewModel.Id == 0)
@@ -75,7 +81,7 @@ namespace LibrarySystem.Controllers
             }
             catch
             {
-                return View("BookForm", bookViewModel);
+                return await InitializeBookFormView(bookViewModel);
             }
         }
 
@@ -93,13 +99,26 @@ namespace LibrarySystem.Controllers
             }
         }
 
+        public async Task<JsonResult> GetSubCategories(int categoryId)
+        {
+            var subCategories = await _subCategoryService.GetSubCategoriesUsingStoredProcedure(categoryId);
+
+            return Json(new SelectList(subCategories, "Id", "Name"));
+        }
+
         private async Task<IActionResult> InitializeBookFormView(SaveBookViewModel bookViewModel)
         {
             var authors = await _authorService.GetAuthorsUsingStoredProcedure();
+            //authors.Insert(0, new AuthorViewModel() { Id = 0, Name = "Select" });
             bookViewModel.Authors = new SelectList(authors, "Id", "Name");
 
             var categories = await _categoryService.GetCategoriesUsingStoredProcedure();
+            //categories.Insert(0, new CategoryViewModel() { Id = 0, Name = "Select" });
             bookViewModel.Categories = new SelectList(categories, "Id", "Name");
+
+            var subCategories = await _subCategoryService.GetSubCategoriesUsingStoredProcedure(bookViewModel.CategoryId);
+            //subCategories.Insert(0, new SubCategoryViewModel() { Id = 0, Name = "Select" });
+            bookViewModel.SubCategories = new SelectList(subCategories, "Id", "Name");
 
             return View("BookForm", bookViewModel);
         }

@@ -29,7 +29,12 @@ namespace LibrarySystem.ViewModels.Book
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
+        [Required]
+        [Display(Name = "SubCategory")]
+        public int SubCategoryId { get; set; }
+
         public SelectList Authors { get; set; }
         public SelectList Categories { get; set; }
+        public SelectList SubCategories { get; set; }
     }
 }

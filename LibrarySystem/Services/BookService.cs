@@ -28,7 +28,7 @@ namespace LibrarySystem.Services
 
         public async Task<BookViewModel> GetBookById(int bookId)
         {
-            var book = await _unitOfWork.Books.GetBookByIdAsync(bookId);
+            var book = await _unitOfWork.Books.GetBookWithDetailsAsync(bookId);
             return _mapper.Map<BookViewModel>(book);
         }
 
@@ -71,7 +71,7 @@ namespace LibrarySystem.Services
                 var book = await _unitOfWork.Books.GetBookByIdAsync(bookId);
                 if (book != null)
                 {
-                    _unitOfWork.Books.CreateBook(book);
+                    _unitOfWork.Books.DeleteBook(book);
                     await _unitOfWork.Complete();
                     return true;
                 }

@@ -7,6 +7,7 @@ namespace LibrarySystem.Services.Interfaces
     public interface ICategoryService
     {
         Task<List<CategoryViewModel>> GetCategoriesUsingStoredProcedure();
+
         Task<List<CategoryViewModel>> GetAllCategories();
 
         Task<CategoryViewModel> GetCategoryById(int categoryId);

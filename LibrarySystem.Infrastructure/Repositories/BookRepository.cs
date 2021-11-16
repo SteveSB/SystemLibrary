@@ -17,8 +17,8 @@ namespace LibrarySystem.Infrastructure.Repositories
         public async Task<IEnumerable<Book>> GetAllBooksAsync()
         {
             return await FindAll()
-                        .Include(x => x.Author)
-                        .Include(x => x.Category)
+                        .Include(b => b.Author)
+                        .Include(b => b.SubCategory).ThenInclude(sc => sc.Category)
                         .OrderBy(book => book.Title)
                         .ToListAsync();
         }
@@ -33,7 +33,7 @@ namespace LibrarySystem.Infrastructure.Repositories
         {
             return await FindByCondition(book => book.Id == bookId)
                         .Include(b => b.Author)
-                        .Include(b => b.Category)
+                        .Include(b => b.SubCategory).ThenInclude(sc => sc.Category)
                         .FirstOrDefaultAsync();
         }
 
