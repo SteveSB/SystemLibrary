@@ -10,7 +10,7 @@ namespace LibrarySystem.Infrastructure.Migrations
                 AS
                 BEGIN
                     SET NOCOUNT ON;
-                    select Id, Name from Categories
+                    select * from Categories
                 END";
 
             migrationBuilder.Sql(sp);
