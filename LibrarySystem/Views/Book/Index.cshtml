@@ -38,9 +38,8 @@
                             <td>@book.AuthorName</td>
                             <td>@book.CategoryName</td>
                             <td>
-                                <a class="btn alert-secondary" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">Edit Book</a>
-                                <a class="btn alert-danger" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">Delete Book</a>
-                                <button class="btn btn-danger" type="button" onclick="deleteBook('@book.Id')">Delete</button>
+                                <a class="btn alert-secondary" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">Edit</a>
+                                <a class="btn alert-danger" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">Delete</a>
                             </td>
 
                         </tr>
@@ -50,18 +49,3 @@
         }
     </div>
 </div>
-
-<script>
-    function deleteBook(bookId) {
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("Delete","Book", new { id = "_bookId" })".replace("_bookId", bookId),
-            success: function () {
-                window.location.replace('@Url.Action("Index", "Book")');
-            },
-            error: function (data) {
-                alert('Error');
-            }
-        });
-    };
-</script>

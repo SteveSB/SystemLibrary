@@ -17,6 +17,8 @@ namespace LibrarySystem.Infrastructure.Repositories
         public async Task<IEnumerable<Book>> GetAllBooksAsync()
         {
             return await FindAll()
+                        .Include(x => x.Author)
+                        .Include(x => x.Category)
                         .OrderBy(book => book.Title)
                         .ToListAsync();
         }

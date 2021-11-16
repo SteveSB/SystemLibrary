@@ -16,7 +16,7 @@ namespace LibrarySystem.Infrastructure.Repositories
 
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategorysAsync()
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await FindAll()
                         .OrderBy(category => category.Name)

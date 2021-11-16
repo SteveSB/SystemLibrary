@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using LibrarySystem.Core.Models;
+using LibrarySystem.ViewModels.Author;
 
 namespace LibrarySystem.MappingProfiles
 {
@@ -6,7 +8,8 @@ namespace LibrarySystem.MappingProfiles
     {
         public AuthorProfile()
         {
-
+            CreateMap<Author, AuthorViewModel>().ReverseMap();
+            CreateMap<Author, SaveAuthorViewModel>().ReverseMap();
         }
     }
 }

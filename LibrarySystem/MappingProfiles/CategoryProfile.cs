@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using LibrarySystem.Core.Models;
+using LibrarySystem.ViewModels.Category;
 
 namespace LibrarySystem.MappingProfiles
 {
@@ -6,7 +8,8 @@ namespace LibrarySystem.MappingProfiles
     {
         public CategoryProfile()
         {
-
+            CreateMap<Category, CategoryViewModel>().ReverseMap();
+            CreateMap<Category, SaveCategoryViewModel>().ReverseMap();
         }
     }
 }

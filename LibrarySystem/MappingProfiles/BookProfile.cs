@@ -10,6 +10,7 @@ namespace LibrarySystem.MappingProfiles
         {
             CreateMap<Book, BookViewModel>().ReverseMap();
             CreateMap<Book, SaveBookViewModel>().ReverseMap();
+            CreateMap<BookViewModel, SaveBookViewModel>().ReverseMap();
         }
     }
 }

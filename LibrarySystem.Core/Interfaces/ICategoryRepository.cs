@@ -7,7 +7,7 @@ namespace LibrarySystem.Core.Interfaces
 {
     public interface ICategoryRepository : IGenericRepository<Category>
     {
-        Task<IEnumerable<Category>> GetAllCategorysAsync();
+        Task<IEnumerable<Category>> GetAllCategoriesAsync();
         Task<Category> GetCategoryByIdAsync(int categoryId);
         void CreateCategory(Category category);
         void UpdateCategory(Category category);

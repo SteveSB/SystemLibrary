@@ -1,4 +1,5 @@
-﻿using LibrarySystem.Services.Interfaces;
+﻿using AutoMapper;
+using LibrarySystem.Services.Interfaces;
 using LibrarySystem.ViewModels.Book;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,11 +11,21 @@ namespace LibrarySystem.Controllers
     public class BookController : Controller
     {
         private readonly IBookService _bookService;
+        private readonly IAuthorService _authorService;
+        private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
         private readonly ILogger<BookController> _logger;
 
-        public BookController(IBookService bookService, ILogger<BookController> logger)
+        public BookController(IBookService bookService,
+            IAuthorService authorService,
+            ICategoryService categoryService,
+            IMapper mapper,
+            ILogger<BookController> logger)
         {
             _bookService = bookService;
+            _authorService = authorService;
+            _categoryService = categoryService;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -29,11 +40,11 @@ namespace LibrarySystem.Controllers
         {
             var bookViewModel = new SaveBookViewModel();
 
-            //var authors = await _authorService.GetAllAuthors();
-            //bookViewModel.Authors = new SelectList(authors, "Id", "Name");
+            var authors = await _authorService.GetAllAuthors();
+            bookViewModel.Authors = new SelectList(authors, "Id", "Name");
 
-            //var categories = await _categoryService.GetAllCategories();
-            //bookViewModel.Categories = new SelectList(categories, "Id", "Name");
+            var categories = await _categoryService.GetAllCategories();
+            bookViewModel.Categories = new SelectList(categories, "Id", "Name");
 
             return View("BookForm", bookViewModel);
         }
@@ -45,7 +56,15 @@ namespace LibrarySystem.Controllers
             if (book == null)
                 return NotFound();
 
-            return View("BookForm", book);
+            var bookViewModel = _mapper.Map<SaveBookViewModel>(book);
+
+            var authors = await _authorService.GetAllAuthors();
+            bookViewModel.Authors = new SelectList(authors, "Id", "Name");
+
+            var categories = await _categoryService.GetAllCategories();
+            bookViewModel.Categories = new SelectList(categories, "Id", "Name");
+
+            return View("BookForm", bookViewModel);
         }
 
         [HttpPost]
