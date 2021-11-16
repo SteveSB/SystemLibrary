@@ -24,7 +24,6 @@
                         <th>Name</th>
                         <th>Description</th>
                         <th></th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,8 +35,6 @@
                             <td class="pt-3">@category.Description</td>
                             <td>
                                 <a class="btn alert-secondary" asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
-                            </td>
-                            <td>
                                 <button class="btn alert-danger" type="button" onclick="deleteCategory('@category.Id')">Delete</button>
                             </td>
                         </tr>

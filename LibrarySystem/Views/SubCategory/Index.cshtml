@@ -1,0 +1,65 @@
+﻿@using LibrarySystem.ViewModels.SubCategory
+@model IEnumerable<SubCategoryViewModel>
+
+@{
+    ViewData["Title"] = "SubCategory Index";
+}
+
+<p>
+    @Html.ActionLink("Add SubCategory", "Create", "SubCategory", null, new { @class = "btn btn-primary" })
+</p>
+
+<div class="text-center">
+    <div class="table-responsive">
+        @if (!Model.Any())
+        {
+            <p>No SubCategories available.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id.</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var subCategory in @Model)
+                    {
+                        <tr>
+                            <td class="pt-3">@subCategory.Id</td>
+                            <td class="pt-3">@subCategory.Name</td>
+                            <td class="pt-3">@subCategory.Description</td>
+                            <td class="pt-3">@subCategory.CategoryName</td>
+                            <td>
+                                <a class="btn alert-secondary" asp-controller="SubCategory" asp-action="Edit" asp-route-id="@subCategory.Id">Edit</a>
+                                <button class="btn alert-danger" type="button" onclick="deleteSubCategory('@subCategory.Id')">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<script>
+    function deleteSubCategory(subCategoryId) {
+        if (confirm('Are you sure you want to delete this SubCategory?')) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete","SubCategory", new { id = "_subCategoryId" })".replace("_subCategoryId", subCategoryId),
+                success: function () {
+                    window.location.replace('@Url.Action("Index", "SubCategory")');
+                },
+                error: function (data) {
+                    alert(data.responseJSON);
+                }
+            });
+        }
+    };
+</script>

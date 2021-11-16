@@ -1,0 +1,48 @@
+﻿@using LibrarySystem.ViewModels.SubCategory
+@model SaveSubCategoryViewModel
+
+@{
+    ViewData["Title"] = "SubCategory Form";
+}
+@{ 
+Layout = "_Layout"; 
+}
+
+@if (Model == null)
+{
+    <h2>Add SubCategory Information</h2>
+}
+else
+{
+    <h2>@Model.Name</h2>
+}
+
+<form asp-controller="SubCategory" asp-action="Save" method="post">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId" class="control-label"></label>
+        <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control">
+            <option value="" disabled selected>Select</option>
+        </select> 
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

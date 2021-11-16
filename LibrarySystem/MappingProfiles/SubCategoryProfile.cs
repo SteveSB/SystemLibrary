@@ -10,6 +10,7 @@ namespace LibrarySystem.MappingProfiles
         {
             CreateMap<SubCategory, SubCategoryViewModel>().ReverseMap();
             CreateMap<SubCategory, SaveSubCategoryViewModel>().ReverseMap();
+            CreateMap<SubCategoryViewModel, SaveSubCategoryViewModel>().ReverseMap();
         }
     }
 }

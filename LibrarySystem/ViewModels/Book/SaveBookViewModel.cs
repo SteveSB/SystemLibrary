@@ -10,7 +10,7 @@ namespace LibrarySystem.ViewModels.Book
         public int Id { get; set; }
 
         [Required]
-        [MinLength(5)]
+        [MinLength(3)]
         [StringLength(50)]
         public string Title { get; set; }
 

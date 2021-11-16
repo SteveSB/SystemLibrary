@@ -8,11 +8,12 @@ namespace LibrarySystem.ViewModels.SubCategory
         public int Id { get; set; }
 
         [Required]
+        [MinLength(3)]
         [StringLength(50)]
         public string Name { get; set; }
 
         [StringLength(250)]
-        public string Descrption { get; set; }
+        public string Description { get; set; }
 
         public int CategoryId { get; set; }
 

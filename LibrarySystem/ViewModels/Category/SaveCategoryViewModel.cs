@@ -8,7 +8,7 @@ namespace LibrarySystem.ViewModels.Category
         public int Id { get; set; }
 
         [Required]
-        [MinLength(5)]
+        [MinLength(3)]
         [StringLength(50)]
         public string Name { get; set; }
 
