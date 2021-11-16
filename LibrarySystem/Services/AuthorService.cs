@@ -20,6 +20,12 @@ namespace LibrarySystem.Services
             _mapper = mapper;
         }
 
+        public async Task<List<AuthorViewModel>> GetAuthorsUsingStoredProcedure()
+        {
+            var authors = await _unitOfWork.Authors.GetAuthorsUsingStoredProcedureAsync();
+            return _mapper.Map<List<AuthorViewModel>>(authors);
+        }
+
         public async Task<List<AuthorViewModel>> GetAllAuthors()
         {
             var authors = await _unitOfWork.Authors.GetAllAuthorsAsync();

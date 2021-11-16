@@ -14,6 +14,11 @@ namespace LibrarySystem.Infrastructure.Repositories
 
         }
 
+        public async Task<IEnumerable<Author>> GetAuthorsUsingStoredProcedureAsync()
+        {
+            return await _context.Authors.FromSqlRaw("GetAllAuthors").ToListAsync();
+        }
+
         public async Task<IEnumerable<Author>> GetAllAuthorsAsync()
         {
             return await FindAll()

@@ -16,6 +16,11 @@ namespace LibrarySystem.Infrastructure.Repositories
 
         }
 
+        public async Task<IEnumerable<Category>> GetCategoriesUsingStoredProcedureAsync()
+        {
+            return await _context.Categories.FromSqlRaw("GetAllCategories").ToListAsync();
+        }
+
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await FindAll()

@@ -6,6 +6,7 @@ namespace LibrarySystem.Services.Interfaces
 {
     public interface IAuthorService
     {
+        Task<List<AuthorViewModel>> GetAuthorsUsingStoredProcedure();
         Task<List<AuthorViewModel>> GetAllAuthors();
 
         Task<AuthorViewModel> GetAuthorById(int authorId);

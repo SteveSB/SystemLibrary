@@ -7,6 +7,7 @@ namespace LibrarySystem.Core.Interfaces
 {
     public interface IAuthorRepository : IGenericRepository<Author>
     {
+        Task<IEnumerable<Author>> GetAuthorsUsingStoredProcedureAsync();
         Task<IEnumerable<Author>> GetAllAuthorsAsync();
         Task<Author> GetAuthorByIdAsync(int authorId);
         void CreateAuthor(Author author);

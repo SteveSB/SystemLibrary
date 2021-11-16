@@ -40,13 +40,7 @@ namespace LibrarySystem.Controllers
         {
             var bookViewModel = new SaveBookViewModel();
 
-            var authors = await _authorService.GetAllAuthors();
-            bookViewModel.Authors = new SelectList(authors, "Id", "Name");
-
-            var categories = await _categoryService.GetAllCategories();
-            bookViewModel.Categories = new SelectList(categories, "Id", "Name");
-
-            return View("BookForm", bookViewModel);
+            return await InitializeBookFormView(bookViewModel);
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -58,13 +52,7 @@ namespace LibrarySystem.Controllers
 
             var bookViewModel = _mapper.Map<SaveBookViewModel>(book);
 
-            var authors = await _authorService.GetAllAuthors();
-            bookViewModel.Authors = new SelectList(authors, "Id", "Name");
-
-            var categories = await _categoryService.GetAllCategories();
-            bookViewModel.Categories = new SelectList(categories, "Id", "Name");
-
-            return View("BookForm", bookViewModel);
+            return await InitializeBookFormView(bookViewModel);
         }
 
         [HttpPost]
@@ -104,5 +92,17 @@ namespace LibrarySystem.Controllers
                 return false;
             }
         }
+
+        private async Task<IActionResult> InitializeBookFormView(SaveBookViewModel bookViewModel)
+        {
+            var authors = await _authorService.GetAuthorsUsingStoredProcedure();
+            bookViewModel.Authors = new SelectList(authors, "Id", "Name");
+
+            var categories = await _categoryService.GetCategoriesUsingStoredProcedure();
+            bookViewModel.Categories = new SelectList(categories, "Id", "Name");
+
+            return View("BookForm", bookViewModel);
+        }
+
     }
 }

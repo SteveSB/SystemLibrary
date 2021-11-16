@@ -20,6 +20,12 @@ namespace LibrarySystem.Services
             _mapper = mapper;
         }
 
+        public async Task<List<CategoryViewModel>> GetCategoriesUsingStoredProcedure()
+        {
+            var categories = await _unitOfWork.Categories.GetCategoriesUsingStoredProcedureAsync();
+            return _mapper.Map<List<CategoryViewModel>>(categories);
+        }
+
         public async Task<List<CategoryViewModel>> GetAllCategories()
         {
             var categories = await _unitOfWork.Categories.GetAllCategoriesAsync();
