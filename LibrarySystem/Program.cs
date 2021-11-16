@@ -15,25 +15,7 @@ namespace LibrarySystem
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-
-            // seed int db data
-            using (var scope = host.Services.CreateScope())
-            {
-                var service = scope.ServiceProvider;
-                var dbInit = service.GetRequiredService<IDbInitializer>();
-                try
-                {
-                    dbInit.SeedData().Wait();
-                }
-                catch (Exception ex)
-                {
-                    var msg = ex.Message;
-                    Console.WriteLine(msg);
-                }
-            }
-
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -79,13 +79,13 @@ namespace LibrarySystem.Services
                 {
                     throw new Exception("Error deleting the category: not found");
                 }
-                _unitOfWork.Categories.CreateCategory(category);
+                _unitOfWork.Categories.DeleteCategory(category);
                 await _unitOfWork.Complete();
                 return true;
             }
             catch (Exception exp)
             {
-                throw new Exception("Error deleting the category: " + exp.Message);
+                throw new Exception("Error deleting the category: has subcategories");
             }
         }
     }

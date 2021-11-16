@@ -27,6 +27,7 @@
                         <th>Category</th>
                         <th>SubCategory</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,11 +41,11 @@
                             <td class="pt-3">@book.CategoryName</td>
                             <td class="pt-3">@book.SubCategoryName</td>
                             <td>
-                                <a class="btn alert-secondary" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">Edit Book</a>
-                                @*<a class="btn alert-danger" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">Delete Book</a>*@
+                                <a class="btn alert-secondary" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">Edit</a>
+                            </td>
+                            <td>
                                 <button class="btn alert-danger" type="button" onclick="deleteBook('@book.Id')">Delete</button>
                             </td>
-
                         </tr>
                     }
                 </tbody>
