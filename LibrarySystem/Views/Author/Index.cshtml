@@ -1,0 +1,61 @@
+﻿@using LibrarySystem.ViewModels.Author
+@model IEnumerable<AuthorViewModel>
+
+@{
+    ViewData["Title"] = "Authors Index";
+}
+
+<p>
+    @Html.ActionLink("Add Author", "Create", "Author", null, new { @class = "btn btn-primary" })
+</p>
+
+<div class="text-center">
+    <div class="table-responsive">
+        @if (!Model.Any())
+        {
+            <p>No Authors available.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id.</th>
+                        <th>Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var author in @Model)
+                    {
+                        <tr>
+                            <td class="pt-3">@author.Id</td>
+                            <td class="pt-3">@author.Name</td>
+                            <td>
+                                <a class="btn alert-secondary" asp-controller="Author" asp-action="Edit" asp-route-id="@author.Id">Edit Author</a>
+                                <button class="btn alert-danger" type="button" onclick="deleteAuthor('@author.Id')">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<script>
+    function deleteAuthor(authorId) {
+        if (confirm('Are you sure you want to delete this author?')) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete","Author", new { id = "_authorId" })".replace("_authorId", authorId),
+                success: function () {
+                    window.location.replace('@Url.Action("Index", "Author")');
+                },
+                error: function (data) {
+                    alert(data.responseJSON);
+                }
+            });
+        }
+    };
+</script>

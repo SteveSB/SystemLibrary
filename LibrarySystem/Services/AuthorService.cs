@@ -79,7 +79,7 @@ namespace LibrarySystem.Services
                 {
                     throw new Exception("Error deleting the author: not found");
                 }
-                _unitOfWork.Authors.CreateAuthor(author);
+                _unitOfWork.Authors.DeleteAuthor(author);
                 await _unitOfWork.Complete();
                 return true;
             }
