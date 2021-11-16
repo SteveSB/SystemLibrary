@@ -1,0 +1,67 @@
+﻿@using LibrarySystem.ViewModels.Book
+@model IEnumerable<BookViewModel>
+
+@{
+    ViewData["Title"] = "Books Index";
+}
+
+<p>
+    @Html.ActionLink("Add Book", "Create", "Book", null, new { @class = "btn btn-primary" })
+</p>
+
+<div class="text-center">
+    <div class="table-responsive">
+        @if (!Model.Any())
+        {
+            <p>No Books available.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id.</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var book in @Model)
+                    {
+                        <tr>
+                            <td>@book.Id</td>
+                            <td>@book.Title</td>
+                            <td>@book.Description</td>
+                            <td>@book.AuthorName</td>
+                            <td>@book.CategoryName</td>
+                            <td>
+                                <a class="btn alert-secondary" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">Edit Book</a>
+                                <a class="btn alert-danger" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">Delete Book</a>
+                                <button class="btn btn-danger" type="button" onclick="deleteBook('@book.Id')">Delete</button>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<script>
+    function deleteBook(bookId) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Delete","Book", new { id = "_bookId" })".replace("_bookId", bookId),
+            success: function () {
+                window.location.replace('@Url.Action("Index", "Book")');
+            },
+            error: function (data) {
+                alert('Error');
+            }
+        });
+    };
+</script>
