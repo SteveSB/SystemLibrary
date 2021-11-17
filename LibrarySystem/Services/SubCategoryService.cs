@@ -87,7 +87,7 @@ namespace LibrarySystem.Services
                 await _unitOfWork.Complete();
                 return true;
             }
-            catch (Exception exp)
+            catch
             {
                 throw new Exception("Error deleting the SubCategory: has books");
             }

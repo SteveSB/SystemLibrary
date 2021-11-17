@@ -1,13 +1,8 @@
-﻿using LibrarySystem.Core.Interfaces;
-using LibrarySystem.Services.Interfaces;
-using LibrarySystem.ViewModels;
+﻿using LibrarySystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LibrarySystem.Controllers
 {
