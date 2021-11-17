@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibrarySystem.Core.Interfaces;
 using LibrarySystem.Core.Models;
+using LibrarySystem.Dtos.Book;
 using LibrarySystem.Services.Interfaces;
 using LibrarySystem.ViewModels.Book;
 using System;
@@ -24,6 +25,12 @@ namespace LibrarySystem.Services
         {
             var books = await _unitOfWork.Books.GetAllBooksAsync();
             return _mapper.Map<List<BookViewModel>>(books);
+        }
+
+        public async Task<List<BookDto>> GetBooksByAuthor(int authorId)
+        {
+            var books = await _unitOfWork.Books.GetBooksByAuthorAsync(authorId);
+            return _mapper.Map<List<BookDto>>(books);
         }
 
         public async Task<BookViewModel> GetBookById(int bookId)

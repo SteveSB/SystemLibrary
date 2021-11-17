@@ -8,6 +8,7 @@ namespace LibrarySystem.Core.Interfaces
     public interface IBookRepository : IGenericRepository<Book>
     {
         Task<IEnumerable<Book>> GetAllBooksAsync();
+        Task<IEnumerable<Book>> GetBooksByAuthorAsync(int authorId);
         Task<Book> GetBookByIdAsync(int bookId);
         Task<Book> GetBookWithDetailsAsync(int bookId);
         void CreateBook(Book book);

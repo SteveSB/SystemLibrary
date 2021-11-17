@@ -23,6 +23,16 @@ namespace LibrarySystem.Infrastructure.Repositories
                         .ToListAsync();
         }
 
+        public async Task<IEnumerable<Book>> GetBooksByAuthorAsync(int authorId)
+        {
+            return await FindAll()
+                        .Where(book => book.AuthorId == authorId)
+                        .Include(b => b.Author)
+                        .Include(b => b.SubCategory).ThenInclude(sc => sc.Category)
+                        .OrderBy(book => book.Title)
+                        .ToListAsync();
+        }
+
         public async Task<Book> GetBookByIdAsync(int bookId)
         {
             return await FindByCondition(book => book.Id == bookId)

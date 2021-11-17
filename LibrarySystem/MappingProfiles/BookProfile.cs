@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LibrarySystem.Core.Models;
+using LibrarySystem.Dtos.Book;
 using LibrarySystem.ViewModels.Book;
 
 namespace LibrarySystem.MappingProfiles
@@ -14,6 +15,11 @@ namespace LibrarySystem.MappingProfiles
                 .ReverseMap();
             CreateMap<Book, SaveBookViewModel>().ReverseMap();
             CreateMap<BookViewModel, SaveBookViewModel>().ReverseMap();
+
+            CreateMap<Book, BookDto>()
+                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.SubCategory.CategoryId))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.SubCategory.Category.Name))
+                .ReverseMap();
         }
     }
 }
