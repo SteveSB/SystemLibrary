@@ -7,13 +7,14 @@
     <p>This mini-project was built following a Clean Architecure and implementing the Repository Pattern with Unit of Work.</p>
 </div>
 
-<p>Some articles from Stack Exchange:</p>
+<h5>Some articles from Stack Exchange:</h5>
 <div class="text-center">
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Id.</th>
+                    <th>Owner Name</th>
                     <th>Type</th>
                     <th>Title</th>
                 </tr>
@@ -21,6 +22,22 @@
             <tbody id="tableBody">
             </tbody>
         </table>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+              <li style="padding: 0 1px" class="page-item disabled">
+                  <button id="prevButton" class="btn alert-secondary paginationButton" onclick="onPrevClick()" disabled>Prev</button>
+              </li>
+              <li style="padding: 0 1px" class="page-item">
+                  <a id="pageNumber" class="btn alert-secondary" style="margin-bottom: 10px;" disabled>1</a>
+                  <div id="loader" class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                  </div>
+              </li>
+              <li style="padding: 0 1px" class="page-item">
+                  <button id="nextButton" class="btn alert-secondary paginationButton" onclick="onNextClick()">Next</button>
+              </li>
+          </ul>
+        </nav>
     </div>
 </div>
 
@@ -28,30 +45,69 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
+    var pageNumber = 1;
+
     function onArticleClick(link) {
         window.open(link, '_blank');
     }
 
-    $(document).ready(function () {
+    function callAPI() {
         $.ajax({
             type: "GET",
-            url: "https://api.stackexchange.com/2.3/articles?key=U4DMV*8nvpm3EOpvf69Rxw((&site=stackoverflow&order=desc&sort=activity&filter=default",
+            url: "https://api.stackexchange.com/2.3/articles?key=U4DMV*8nvpm3EOpvf69Rxw((&site=stackoverflow&page=" +
+                    `${pageNumber}&pagesize=2&order=desc&sort=activity&filter=default`,
             success: function (data) {
-                debugger;
-                $('#tableBody').empty();
+                $('#loader').hide();
+                $('#pageNumber').show();
                 var items = '';
                 $.each(data.items, function (i, item) {
                     items += `<tr style="cursor: pointer;" onclick="onArticleClick('${item.link}')">` +
                                 `<td class="pt-3">${item.article_id}</td>` +
+                                `<td class="pt-3">${item.owner.display_name}</td>` +
                                 `<td class="pt-3">${item.article_type}</td>` + 
                                 `<td class="pt-3">${item.title}</td>` +
                             '</tr>';
                 });
-                $('#tableBody').html(items);
+
+                if (items === '') {
+                    $('#nextButton').prop('disabled', true);
+                    $('#prevButton').prop('disabled', false);
+                    pageNumber--;
+                    alert('No more articles');
+                }
+                else {
+                    $('#nextButton').prop('disabled', false);
+                    $('#prevButton').prop('disabled', pageNumber == 1);
+                    $('#pageNumber').html(pageNumber);
+                    $('#tableBody').html(items);
+                }
             },
             error: function (data) {
                 console.log(data);
             }
         });
+    }
+
+    function onPrevClick(link) {
+        $('.paginationButton').prop('disabled', true);
+        $('#loader').show();
+        $('#pageNumber').hide();
+        pageNumber--;
+        callAPI();
+    }
+
+    function onNextClick(link) {
+        $('.paginationButton').prop('disabled', true);
+        $('#loader').show();
+        $('#pageNumber').hide();
+        pageNumber++;
+        callAPI();
+    }
+
+    $(document).ready(function () {
+        $('.paginationButton').prop('disabled', true);
+        $('#loader').show();
+        $('#pageNumber').hide();
+        callAPI();
     });
 </script>
